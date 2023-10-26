@@ -4,8 +4,8 @@ package main
 //go:generate go run github.com/google/wire/cmd/wire
 
 import (
-	"github.com/evermos/boilerplate-go/configs"
-	"github.com/evermos/boilerplate-go/shared/logger"
+	"github.com/kks-learning-management-api/configs"
+	"github.com/kks-learning-management-api/shared/logger"
 )
 
 var config *configs.Config
@@ -25,11 +25,6 @@ func main() {
 
 	// Wire everything up
 	http := InitializeService()
-
-	consumers := InitializeEvent()
-
-	// Start consumers
-	consumers.Start()
 
 	// Run server
 	http.SetupAndServe()

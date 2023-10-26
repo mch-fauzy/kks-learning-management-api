@@ -24,16 +24,6 @@ type Config struct {
 		URL      string `mapstructure:"URL"`
 	}
 
-	Cache struct {
-		Redis struct {
-			Primary struct {
-				Host     string `mapstructure:"HOST"`
-				Port     string `mapstructure:"PORT"`
-				Password string `mapstructure:"PASSWORD"`
-			}
-		}
-	}
-
 	DB struct {
 		MySQL struct {
 			Read struct {
@@ -51,43 +41,6 @@ type Config struct {
 				Password string `mapstructure:"PASSWORD"`
 				Name     string `mapstructure:"NAME"`
 				Timezone string `mapstructure:"TIMEZONE"`
-			}
-		}
-	}
-
-	Event struct {
-		Consumer struct {
-			SQS struct {
-				AccessKeyID       string `mapstructure:"ACCESS_KEY_ID"`
-				BackoffSeconds    int    `mapstructure:"BACKOFF_SECONDS"`
-				MaxMessage        int64  `mapstructure:"MAX_MESSAGE"`
-				MaxRetries        int    `mapstructure:"MAX_RETRIES"`
-				MaxRetriesConsume int    `mapstructure:"MAX_RETRIES_CONSUME"`
-				Region            string `mapstructure:"REGION"`
-				SecretAccessKey   string `mapstructure:"SECRET_ACCESS_KEY"`
-				WaitTimeSeconds   int64  `mapstructure:"WAIT_TIME_SECONDS"`
-
-				Topics struct {
-					FooBarBaz struct {
-						Enabled bool   `mapstructure:"ENABLED"`
-						URL     string `mapstructure:"URL"`
-					} `mapstructure:"FOOBARBAZ"`
-				}
-			}
-		}
-
-		Producer struct {
-			SNS struct {
-				AccessKeyID     string `mapstructure:"ACCESS_KEY_ID"`
-				MaxRetries      int    `mapstructure:"MAX_RETRIES"`
-				Region          string `mapstructure:"REGION"`
-				SecretAccessKey string `mapstructure:"SECRET_ACCESS_KEY"`
-				Topics          struct {
-					FooCreated struct {
-						ARN     string `mapstructure:"ARN"`
-						Enabled bool   `mapstructure:"ENABLED"`
-					} `mapstructure:"FOO_CREATED"`
-				}
 			}
 		}
 	}

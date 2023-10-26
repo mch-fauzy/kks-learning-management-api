@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"net/url"
 
-	"github.com/evermos/boilerplate-go/shared/failure"
+	"github.com/kks-learning-management-api/shared/failure"
 
-	"github.com/evermos/boilerplate-go/configs"
+	"github.com/kks-learning-management-api/configs"
 	// use MySQL driver
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"

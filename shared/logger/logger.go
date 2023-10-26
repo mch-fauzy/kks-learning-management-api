@@ -4,7 +4,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/evermos/boilerplate-go/configs"
+	"github.com/kks-learning-management-api/configs"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"

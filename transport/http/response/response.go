@@ -4,15 +4,16 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/evermos/boilerplate-go/shared/failure"
-	"github.com/evermos/boilerplate-go/shared/logger"
+	"github.com/kks-learning-management-api/shared/failure"
+	"github.com/kks-learning-management-api/shared/logger"
 )
 
 // Base is the base object of all responses
 type Base struct {
-	Data    *interface{} `json:"data,omitempty"`
-	Error   *string      `json:"error,omitempty"`
-	Message *string      `json:"message,omitempty"`
+	Data     *interface{} `json:"data,omitempty"`
+	Metadata *interface{} `json:"metadata,omitempty"`
+	Error    *string      `json:"error,omitempty"`
+	Message  *string      `json:"message,omitempty"`
 }
 
 // NoContent sends a response without any content
@@ -23,6 +24,11 @@ func NoContent(w http.ResponseWriter) {
 // WithMessage sends a response with a simple text message
 func WithMessage(w http.ResponseWriter, code int, message string) {
 	respond(w, code, Base{Message: &message})
+}
+
+// WithMetadata sends a response containing a JSON object with metadata
+func WithMetadata(w http.ResponseWriter, code int, jsonPayload interface{}, metadata interface{}) {
+	respond(w, code, Base{Data: &jsonPayload, Metadata: &metadata})
 }
 
 // WithJSON sends a response containing a JSON object

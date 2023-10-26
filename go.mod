@@ -1,4 +1,4 @@
-module github.com/evermos/boilerplate-go
+module github.com/kks-learning-management-api
 
 go 1.15
 
