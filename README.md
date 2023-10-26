@@ -52,6 +52,21 @@ Once the application is up and running, you can interact with the API using the 
 - **Description:** View Student Information by ID, including course and date which enrolled by student
 - **Path Parameters:** `studentId`
 
+### Start Concurrency
+
+- **Endpoint:** `Post /startConcurrency`
+- **Description:** Start concurrency to print random number
+
+### Stop Concurrency
+
+- **Endpoint:** `Post /stopConcurrency `
+- **Description:** stop the concurrency process
+
+### Stop Program
+
+- **Endpoint:** `Post /stopProgram`
+- **Description:** Force stop the program
+
 ## Contributing
 
 Contributions are welcome! If you want to contribute, please follow these steps:
