@@ -2,10 +2,12 @@ package http
 
 import (
 	"fmt"
+	"math/rand"
 	"net/http"
 	"os"
 	"os/signal"
 	"strings"
+	"sync"
 	"syscall"
 	"time"
 
@@ -39,11 +41,14 @@ const (
 
 // HTTP is the HTTP server.
 type HTTP struct {
-	Config *configs.Config
-	DB     *infras.MySQLConn
-	Router router.Router
-	State  ServerState
-	mux    *chi.Mux
+	Config             *configs.Config
+	DB                 *infras.MySQLConn
+	Router             router.Router
+	State              ServerState
+	mux                *chi.Mux
+	concurrencyEnabled bool
+	concurrencyMutex   sync.Mutex
+	shutdownChannel    chan os.Signal
 }
 
 // ProvideHTTP is the provider for HTTP.
@@ -86,6 +91,9 @@ func (h *HTTP) setupSwaggerDocs() {
 
 func (h *HTTP) setupRoutes() {
 	h.mux.Get("/health", h.HealthCheck)
+	h.mux.Post("/startConcurrency", h.StartConcurrency)
+	h.mux.Post("/stopConcurrency", h.StopConcurrency)
+	h.mux.Post("/stopProgram", h.StopProgram)
 	h.Router.SetupRoutes(h.mux)
 }
 
@@ -188,4 +196,79 @@ func (h *HTTP) HealthCheck(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	response.WithMessage(w, http.StatusOK, "OK")
+}
+
+// StartConcurrency Start concurrency
+// @Summary Start concurrency
+// @Description Start concurrency
+// @Tags service
+// @Produce json
+// @Accept json
+// @Success 200 {object} response.Base
+// @Failure 503 {object} response.Base
+// @Router /startConcurrency [post]
+func (h *HTTP) StartConcurrency(w http.ResponseWriter, r *http.Request) {
+	h.concurrencyMutex.Lock()
+	defer h.concurrencyMutex.Unlock()
+
+	if h.concurrencyEnabled {
+		http.Error(w, "Concurrency is already running", http.StatusConflict)
+		return
+	}
+
+	h.concurrencyEnabled = true
+	go h.runConcurrencyProcess()
+
+	response.WithMessage(w, http.StatusOK, "Concurrency process started")
+}
+
+// StopConcurrency Stop concurrency
+// @Summary Stop concurrency
+// @Description Stop concurrency
+// @Tags service
+// @Produce json
+// @Accept json
+// @Success 200 {object} response.Base
+// @Failure 503 {object} response.Base
+// @Router /stopConcurrency [post]
+func (h *HTTP) StopConcurrency(w http.ResponseWriter, r *http.Request) {
+	h.concurrencyMutex.Lock()
+	defer h.concurrencyMutex.Unlock()
+
+	if !h.concurrencyEnabled {
+		http.Error(w, "Concurrency is not running", http.StatusConflict)
+		return
+	}
+
+	h.concurrencyEnabled = false
+
+	response.WithMessage(w, http.StatusOK, "Concurrency process stopped")
+}
+
+// StopProgram Stop program
+// @Summary Stop program
+// @Description Stop program
+// @Tags service
+// @Produce json
+// @Accept json
+// @Success 200 {object} response.Base
+// @Failure 503 {object} response.Base
+// @Router /stopProgram [post]
+func (h *HTTP) StopProgram(w http.ResponseWriter, r *http.Request) {
+	log.Info().Msg("Stopping the program...")
+	os.Exit(0)
+}
+
+func (h *HTTP) runConcurrencyProcess() {
+	for {
+		h.concurrencyMutex.Lock()
+		if !h.concurrencyEnabled {
+			h.concurrencyMutex.Unlock()
+			break
+		}
+		h.concurrencyMutex.Unlock()
+		randomNumber := rand.Intn(100)
+		fmt.Println("Random number:", randomNumber)
+		time.Sleep(time.Second)
+	}
 }
