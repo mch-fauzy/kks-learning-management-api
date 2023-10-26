@@ -7,6 +7,7 @@ import (
 	"github.com/google/wire"
 	"github.com/kks-learning-management-api/configs"
 	"github.com/kks-learning-management-api/infras"
+	enrollmentRepository "github.com/kks-learning-management-api/internal/domain/enrollment/repository"
 	studentRepository "github.com/kks-learning-management-api/internal/domain/student/repository"
 	studentService "github.com/kks-learning-management-api/internal/domain/student/service"
 	studentHandler "github.com/kks-learning-management-api/internal/handlers/student"
@@ -24,7 +25,7 @@ var persistences = wire.NewSet(
 	infras.ProvideMySQLConn,
 )
 
-// Wiring for domain FooBarBaz.
+// Wiring for domain.
 var domainStudent = wire.NewSet(
 	// Service interface and implementation
 	studentService.ProvideStudentServiceImpl,
@@ -34,9 +35,16 @@ var domainStudent = wire.NewSet(
 	wire.Bind(new(studentRepository.StudentRepository), new(*studentRepository.StudentRepositoryMySQL)),
 )
 
+var domainEnrollment = wire.NewSet(
+	// Repository interface and implementation
+	enrollmentRepository.ProvideEnrollmentRepositoryMySQL,
+	wire.Bind(new(enrollmentRepository.EnrollmentRepository), new(*enrollmentRepository.EnrollmentRepositoryMySQL)),
+)
+
 // Wiring for all domains.
 var domains = wire.NewSet(
 	domainStudent,
+	domainEnrollment,
 )
 
 // Wiring for HTTP routing.

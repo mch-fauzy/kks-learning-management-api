@@ -1,11 +1,8 @@
 package infras
 
 import (
-	"database/sql"
 	"fmt"
 	"net/url"
-
-	"github.com/kks-learning-management-api/shared/failure"
 
 	"github.com/kks-learning-management-api/configs"
 	// use MySQL driver
@@ -95,32 +92,4 @@ func CreateDBConnection(name, username, password, host, port, dbName, timeZone s
 	db.SetMaxOpenConns(maxOpenConnection)
 
 	return db
-}
-
-// OpenMock opens a database connection for mocking purposes.
-func OpenMock(db *sql.DB) *MySQLConn {
-	conn := sqlx.NewDb(db, "mysql")
-	return &MySQLConn{
-		Write: conn,
-		Read:  conn,
-	}
-}
-
-// WithTransaction performs queries with transaction
-func (m *MySQLConn) WithTransaction(block Block) (err error) {
-	e := make(chan error)
-	tx, err := m.Write.Beginx()
-	if err != nil {
-		return
-	}
-	go block(tx, e)
-	err = <-e
-	if err != nil {
-		if errTx := tx.Rollback(); errTx != nil {
-			err = failure.InternalError(errTx)
-		}
-		return
-	}
-	err = tx.Commit()
-	return
 }

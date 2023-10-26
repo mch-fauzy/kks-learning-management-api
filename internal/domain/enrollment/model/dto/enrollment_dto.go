@@ -7,16 +7,16 @@ import (
 )
 
 type EnrollmentResponse struct {
-	Id                   int         `json:"id"`
-	StudentId            string      `json:"studentId"`
-	CourseId             string      `json:"courseId"`
-	CourseEnrollmentDate time.Time   `json:"courseEnrollmentDate"`
-	CreatedAt            time.Time   `json:"createdAt"`
-	CreatedBy            string      `json:"createdBy"`
-	UpdatedAt            time.Time   `json:"updatedAt"`
-	UpdatedBy            string      `json:"updatedBy"`
-	DeletedAt            null.Time   `json:"deletedAt"`
-	DeletedBy            null.String `json:"DeletedBy"`
+	Id                   int         `json:"id,omitempty"`
+	StudentId            string      `json:"studentId,omitempty"`
+	CourseId             string      `json:"courseId,omitempty"`
+	CourseEnrollmentDate time.Time   `json:"courseEnrollmentDate,omitempty"`
+	CreatedAt            time.Time   `json:"createdAt,omitempty"`
+	CreatedBy            string      `json:"createdBy,omitempty"`
+	UpdatedAt            time.Time   `json:"updatedAt,omitempty"`
+	UpdatedBy            string      `json:"updatedBy,omitempty"`
+	DeletedAt            null.Time   `json:"deletedAt,omitempty"`
+	DeletedBy            null.String `json:"deletedBy,omitempty"`
 }
 
-type EnrollmentListResponse []*EnrollmentResponse
+type EnrollmentListResponse []EnrollmentResponse

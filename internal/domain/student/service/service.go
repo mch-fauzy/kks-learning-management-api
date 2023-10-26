@@ -1,7 +1,8 @@
 package service
 
 import (
-	"github.com/kks-learning-management-api/internal/domain/student/repository"
+	enrollmentRepository "github.com/kks-learning-management-api/internal/domain/enrollment/repository"
+	studentRepository "github.com/kks-learning-management-api/internal/domain/student/repository"
 )
 
 type StudentService interface {
@@ -9,11 +10,13 @@ type StudentService interface {
 }
 
 type StudentServiceImpl struct {
-	StudentRepository repository.StudentRepository
+	StudentRepository    studentRepository.StudentRepository
+	EnrollmentRepository enrollmentRepository.EnrollmentRepository
 }
 
-func ProvideStudentServiceImpl(studentRepository repository.StudentRepository) *StudentServiceImpl {
+func ProvideStudentServiceImpl(studentRepository studentRepository.StudentRepository, enrollmentRepository enrollmentRepository.EnrollmentRepository) *StudentServiceImpl {
 	return &StudentServiceImpl{
-		StudentRepository: studentRepository,
+		StudentRepository:    studentRepository,
+		EnrollmentRepository: enrollmentRepository,
 	}
 }

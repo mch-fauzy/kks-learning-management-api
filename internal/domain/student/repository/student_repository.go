@@ -1,6 +1,8 @@
 package repository
 
 import (
+	"database/sql"
+	"errors"
 	"fmt"
 
 	"github.com/kks-learning-management-api/internal/domain/student/model"
@@ -25,16 +27,21 @@ const (
 	FROM
 		student
 	`
+	filterByIdQuery = `
+	WHERE
+		id = ?
+	`
 	paginationQuery = `
 	LIMIT ? OFFSET ?
 	`
 )
 
 type StudentManagementRepository interface {
-	GetStudents(pagination model.Pagination) (model.StudentList, error)
+	ResolveStudents(pagination model.Pagination) (model.StudentList, error)
+	ResolveStudentById(filter model.StudentPrimaryID) (model.Student, error)
 }
 
-func (r *StudentRepositoryMySQL) GetStudents(pagination model.Pagination) (model.StudentList, error) {
+func (r *StudentRepositoryMySQL) ResolveStudents(pagination model.Pagination) (model.StudentList, error) {
 	query := fmt.Sprintf(selectStudentQuery)
 
 	var args []interface{}
@@ -47,9 +54,33 @@ func (r *StudentRepositoryMySQL) GetStudents(pagination model.Pagination) (model
 	if err != nil {
 		log.Error().
 			Err(err).
-			Msg("[GetStudents] Failed to get student")
+			Msg("[ResolveStudents] Failed to get student")
 		err = failure.InternalError(err)
 		return model.StudentList{}, err
+	}
+
+	return student, nil
+}
+
+func (r *StudentRepositoryMySQL) ResolveStudentById(filter model.StudentPrimaryID) (model.Student, error) {
+	query := fmt.Sprintf(selectStudentQuery)
+
+	var args []interface{}
+	query += filterByIdQuery
+	args = append(args, filter.Id)
+
+	var student model.Student
+	err := r.DB.Read.Get(&student, query, args...)
+	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			err = failure.NotFound(fmt.Sprintf("Student with id '%s' not found", fmt.Sprint(filter.Id)))
+			return model.Student{}, err
+		}
+		log.Error().
+			Err(err).
+			Msg("[ResolveStudentById] Failed to get student by id")
+		err = failure.InternalError(err)
+		return model.Student{}, err
 	}
 
 	return student, nil
