@@ -22,8 +22,8 @@ func NewStudentEnrollmentResponse(enrollment enrollmentModel.Enrollment) Student
 
 func BuildStudentEnrollmentListResponse(enrollmentList enrollmentModel.EnrollmentList) StudentEnrollmentListResponse {
 	results := StudentEnrollmentListResponse{}
-	for _, student := range enrollmentList {
-		results = append(results, NewStudentEnrollmentResponse(*student))
+	for _, enrollment := range enrollmentList {
+		results = append(results, NewStudentEnrollmentResponse(*enrollment))
 	}
 	return results
 }

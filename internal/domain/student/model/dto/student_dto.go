@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/guregu/null"
-	courseDTO "github.com/kks-learning-management-api/internal/domain/course/model/dto"
+	courseModel "github.com/kks-learning-management-api/internal/domain/course/model"
 	enrollmentModel "github.com/kks-learning-management-api/internal/domain/enrollment/model"
 	"github.com/kks-learning-management-api/internal/domain/student/model"
 	"github.com/kks-learning-management-api/shared"
@@ -63,7 +63,7 @@ type StudentResponse struct {
 	DeletedAt      null.Time                     `json:"deletedAt"`
 	DeletedBy      null.String                   `json:"deletedBy"`
 	Enrollment     StudentEnrollmentListResponse `json:"enrollment"`
-	Courses        courseDTO.CourseListResponse  `json:"courses"`
+	Courses        StudentCourseListResponse     `json:"courses"`
 }
 
 type StudentListResponse []StudentResponse
@@ -82,7 +82,7 @@ func NewStudentResponse(student model.Student) StudentResponse {
 		DeletedAt:      student.DeletedAt,
 		DeletedBy:      student.DeletedBy,
 		Enrollment:     StudentEnrollmentListResponse{},
-		Courses:        courseDTO.CourseListResponse{},
+		Courses:        StudentCourseListResponse{},
 	}
 }
 
@@ -94,7 +94,7 @@ func BuildStudentListResponse(studentList model.StudentList) StudentListResponse
 	return results
 }
 
-func BuildStudentByIdResponse(student model.Student, enrollmentList enrollmentModel.EnrollmentList) StudentResponse {
+func BuildStudentByIdResponse(student model.Student, enrollmentList enrollmentModel.EnrollmentList, courseList courseModel.CourseList) StudentResponse {
 	return StudentResponse{
 		Id:             student.Id,
 		Name:           student.Name,
@@ -108,7 +108,7 @@ func BuildStudentByIdResponse(student model.Student, enrollmentList enrollmentMo
 		DeletedAt:      student.DeletedAt,
 		DeletedBy:      student.DeletedBy,
 		Enrollment:     BuildStudentEnrollmentListResponse(enrollmentList),
-		Courses:        courseDTO.CourseListResponse{},
+		Courses:        BuildStudentCourseListResponse(courseList),
 	}
 }
 

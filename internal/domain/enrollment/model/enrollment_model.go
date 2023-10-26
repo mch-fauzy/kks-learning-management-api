@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/guregu/null"
+	courseModel "github.com/kks-learning-management-api/internal/domain/course/model"
 )
 
 type Enrollment struct {
@@ -23,4 +24,10 @@ type EnrollmentList []*Enrollment
 
 type EnrollmentStudentID struct {
 	StudentId string `db:"student_id"`
+}
+
+func (e Enrollment) ToCoursePrimaryId() courseModel.CoursePrimaryID {
+	return courseModel.CoursePrimaryID{
+		Id: e.CourseId,
+	}
 }
