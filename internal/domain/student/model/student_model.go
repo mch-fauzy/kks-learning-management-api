@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"github.com/guregu/null"
-	"github.com/kks-learning-management-api/internal/domain/enrollment/model"
 )
 
 type Student struct {
@@ -33,8 +32,8 @@ func (s Student) ToStudentPrimaryID() StudentPrimaryID {
 	}
 }
 
-func (s Student) ToEnrollmentStudentID() model.EnrollmentStudentID {
-	return model.EnrollmentStudentID{
+func (s Student) ToEnrollmentStudentID() StudentEnrollmentStudentID {
+	return StudentEnrollmentStudentID{
 		StudentId: s.Id,
 	}
 }

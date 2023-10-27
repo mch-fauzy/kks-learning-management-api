@@ -6,7 +6,7 @@ import (
 	"github.com/guregu/null"
 )
 
-type Enrollment struct {
+type StudentEnrollment struct {
 	Id                   int         `db:"id"`
 	StudentId            string      `db:"student_id"`
 	CourseId             string      `db:"course_id"`
@@ -19,8 +19,14 @@ type Enrollment struct {
 	DeletedBy            null.String `db:"deleted_by"`
 }
 
-type EnrollmentList []*Enrollment
+type StudentEnrollmentList []*StudentEnrollment
 
-type EnrollmentStudentID struct {
+type StudentEnrollmentStudentID struct {
 	StudentId string `db:"student_id"`
+}
+
+func (e StudentEnrollment) ToCoursePrimaryId() StudentCoursePrimaryID {
+	return StudentCoursePrimaryID{
+		Id: e.CourseId,
+	}
 }

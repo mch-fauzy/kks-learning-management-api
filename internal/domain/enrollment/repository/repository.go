@@ -5,7 +5,6 @@ import (
 )
 
 type EnrollmentRepository interface {
-	EnrollmentManagementRepository
 }
 
 type EnrollmentRepositoryMySQL struct {

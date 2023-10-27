@@ -5,7 +5,6 @@ import (
 )
 
 type CourseRepository interface {
-	CourseManagementRepository
 }
 
 type CourseRepositoryMySQL struct {

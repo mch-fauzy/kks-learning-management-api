@@ -6,6 +6,8 @@ import (
 
 type StudentRepository interface {
 	StudentManagementRepository
+	StudentEnrollmentRepository
+	StudentCourseRepository
 }
 
 type StudentRepositoryMySQL struct {

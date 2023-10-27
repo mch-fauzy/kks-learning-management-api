@@ -1,7 +1,7 @@
 package dto
 
 import (
-	courseModel "github.com/kks-learning-management-api/internal/domain/course/model"
+	"github.com/kks-learning-management-api/internal/domain/student/model"
 )
 
 type StudentCourseResponse struct {
@@ -13,7 +13,7 @@ type StudentCourseResponse struct {
 
 type StudentCourseListResponse []StudentCourseResponse
 
-func NewStudentCourseResponse(course courseModel.Course) StudentCourseResponse {
+func NewStudentCourseResponse(course model.StudentCourse) StudentCourseResponse {
 	return StudentCourseResponse{
 		Id:         course.Id,
 		LecturerId: course.LecturerId,
@@ -22,7 +22,7 @@ func NewStudentCourseResponse(course courseModel.Course) StudentCourseResponse {
 	}
 }
 
-func BuildStudentCourseListResponse(courseList courseModel.CourseList) StudentCourseListResponse {
+func BuildStudentCourseListResponse(courseList model.StudentCourseList) StudentCourseListResponse {
 	results := StudentCourseListResponse{}
 	for _, course := range courseList {
 		results = append(results, NewStudentCourseResponse(*course))

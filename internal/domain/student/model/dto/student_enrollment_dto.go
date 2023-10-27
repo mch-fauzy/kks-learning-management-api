@@ -3,7 +3,7 @@ package dto
 import (
 	"time"
 
-	enrollmentModel "github.com/kks-learning-management-api/internal/domain/enrollment/model"
+	"github.com/kks-learning-management-api/internal/domain/student/model"
 )
 
 type StudentEnrollmentResponse struct {
@@ -13,14 +13,14 @@ type StudentEnrollmentResponse struct {
 
 type StudentEnrollmentListResponse []StudentEnrollmentResponse
 
-func NewStudentEnrollmentResponse(enrollment enrollmentModel.Enrollment) StudentEnrollmentResponse {
+func NewStudentEnrollmentResponse(enrollment model.StudentEnrollment) StudentEnrollmentResponse {
 	return StudentEnrollmentResponse{
 		CourseId:             enrollment.CourseId,
 		CourseEnrollmentDate: enrollment.CourseEnrollmentDate,
 	}
 }
 
-func BuildStudentEnrollmentListResponse(enrollmentList enrollmentModel.EnrollmentList) StudentEnrollmentListResponse {
+func BuildStudentEnrollmentListResponse(enrollmentList model.StudentEnrollmentList) StudentEnrollmentListResponse {
 	results := StudentEnrollmentListResponse{}
 	for _, enrollment := range enrollmentList {
 		results = append(results, NewStudentEnrollmentResponse(*enrollment))

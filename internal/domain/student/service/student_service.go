@@ -1,7 +1,7 @@
 package service
 
 import (
-	courseModel "github.com/kks-learning-management-api/internal/domain/course/model"
+	"github.com/kks-learning-management-api/internal/domain/student/model"
 	"github.com/kks-learning-management-api/internal/domain/student/model/dto"
 	"github.com/rs/zerolog/log"
 )
@@ -20,17 +20,17 @@ func (s *StudentServiceImpl) GetStudentById(req dto.ViewStudentByIdRequest) (dto
 		return dto.StudentResponse{}, err
 	}
 
-	enrollmentByStudentId, err := s.EnrollmentRepository.ResolveEnrollmentByStudentId(studentById.ToEnrollmentStudentID())
+	enrollmentByStudentId, err := s.StudentRepository.ResolveEnrollmentByStudentId(studentById.ToEnrollmentStudentID())
 	if err != nil {
 		log.Error().Err(err).Msg("[GetStudentById] Failed to retrieve enrollment by student id")
 		return dto.StudentResponse{}, err
 	}
 
-	courseDetails := make(courseModel.CourseList, 0)
+	courseDetails := make(model.StudentCourseList, 0)
 
 	// Iterate through the enrollments and fetch course details for each course_id
 	for _, enrollment := range enrollmentByStudentId {
-		courseById, err := s.CourseRepository.ResolveCourseById(enrollment.ToCoursePrimaryId())
+		courseById, err := s.StudentRepository.ResolveCourseById(enrollment.ToCoursePrimaryId())
 		if err != nil {
 			log.Error().Err(err).Msg("[GetStudentById] Failed to retrieve course by id")
 			return dto.StudentResponse{}, err

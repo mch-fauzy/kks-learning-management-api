@@ -4,8 +4,6 @@ import (
 	"time"
 
 	"github.com/guregu/null"
-	courseModel "github.com/kks-learning-management-api/internal/domain/course/model"
-	enrollmentModel "github.com/kks-learning-management-api/internal/domain/enrollment/model"
 	"github.com/kks-learning-management-api/internal/domain/student/model"
 	"github.com/kks-learning-management-api/shared"
 	"github.com/kks-learning-management-api/shared/failure"
@@ -94,7 +92,7 @@ func BuildStudentListResponse(studentList model.StudentList) StudentListResponse
 	return results
 }
 
-func BuildStudentByIdResponse(student model.Student, enrollmentList enrollmentModel.EnrollmentList, courseList courseModel.CourseList) StudentResponse {
+func BuildStudentByIdResponse(student model.Student, enrollmentList model.StudentEnrollmentList, courseList model.StudentCourseList) StudentResponse {
 	return StudentResponse{
 		Id:             student.Id,
 		Name:           student.Name,
