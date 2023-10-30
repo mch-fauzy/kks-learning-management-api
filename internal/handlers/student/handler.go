@@ -19,6 +19,7 @@ func (h *StudentHandler) Router(r chi.Router) {
 
 	r.Route("/students", func(r chi.Router) {
 		r.Group(func(r chi.Router) {
+			r.Get("/", h.ViewStudent)
 			r.Get("/{studentId}", h.ViewStudentById)
 		})
 	})

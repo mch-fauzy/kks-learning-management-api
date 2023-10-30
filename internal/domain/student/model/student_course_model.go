@@ -11,12 +11,12 @@ type StudentCourse struct {
 	LecturerId string      `db:"lecturer_id"`
 	Name       string      `db:"name"`
 	Credit     int         `db:"credit"`
-	CreatedAt  time.Time   `json:"createdAt"`
-	CreatedBy  string      `json:"createdBy"`
-	UpdatedAt  time.Time   `json:"updatedAt"`
-	UpdatedBy  string      `json:"updatedBy"`
-	DeletedAt  null.Time   `json:"deletedAt"`
-	DeletedBy  null.String `json:"deletedBy"`
+	CreatedAt  time.Time   `db:"created_at"`
+	CreatedBy  string      `db:"created_by"`
+	UpdatedAt  time.Time   `db:"updated_at"`
+	UpdatedBy  string      `db:"updated_by"`
+	DeletedAt  null.Time   `db:"deleted_at"`
+	DeletedBy  null.String `db:"deleted_by"`
 }
 
 type StudentCourseList []*StudentCourse
@@ -24,3 +24,5 @@ type StudentCourseList []*StudentCourse
 type StudentCoursePrimaryID struct {
 	Id string `db:"id"`
 }
+
+type StudentCoursePrimaryIDList []*StudentCoursePrimaryID

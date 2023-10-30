@@ -2,31 +2,40 @@ package model
 
 import (
 	"time"
-
-	"github.com/guregu/null"
 )
 
 type StudentEnrollment struct {
-	Id                   int         `db:"id"`
-	StudentId            string      `db:"student_id"`
-	CourseId             string      `db:"course_id"`
-	CourseEnrollmentDate time.Time   `db:"course_enrollment_date"`
-	CreatedAt            time.Time   `db:"created_at"`
-	CreatedBy            string      `db:"created_by"`
-	UpdatedAt            time.Time   `db:"updated_at"`
-	UpdatedBy            string      `db:"updated_by"`
-	DeletedAt            null.Time   `db:"deleted_at"`
-	DeletedBy            null.String `db:"deleted_by"`
+	Id                   int       `db:"id"`
+	StudentId            string    `db:"student_id"`
+	CourseId             string    `db:"course_id"`
+	CourseEnrollmentDate time.Time `db:"course_enrollment_date"`
 }
-
-type StudentEnrollmentList []*StudentEnrollment
 
 type StudentEnrollmentStudentID struct {
 	StudentId string `db:"student_id"`
 }
 
-func (e StudentEnrollment) ToCoursePrimaryId() StudentCoursePrimaryID {
+func (se StudentEnrollment) ToStudentCoursePrimaryId() StudentCoursePrimaryID {
 	return StudentCoursePrimaryID{
-		Id: e.CourseId,
+		Id: se.CourseId,
 	}
+}
+
+type StudentEnrollmentList []*StudentEnrollment
+
+// func (seList StudentEnrollmentList) ToStudentCoursePrimaryIdList() StudentCoursePrimaryIDList {
+// 	courseIdList := StudentCoursePrimaryIDList{}
+
+// 	for _, studentEnrollment := range seList {
+// 		courseIdList = append(courseIdList, &StudentCoursePrimaryID{Id: studentEnrollment.CourseId})
+// 	}
+// 	return courseIdList
+// }
+
+func (seList StudentEnrollmentList) ToCourseIdSlice() []string {
+	results := []string{}
+	for _, studentEnrollment := range seList {
+		results = append(results, studentEnrollment.CourseId)
+	}
+	return results
 }

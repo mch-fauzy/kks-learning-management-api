@@ -2,6 +2,7 @@ package student
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/go-chi/chi"
 	"github.com/kks-learning-management-api/internal/domain/student/model/dto"
@@ -43,21 +44,21 @@ func (h *StudentHandler) ViewStudentById(w http.ResponseWriter, r *http.Request)
 // @Failure 404 {object} response.Base
 // @Failure 500 {object} response.Base
 // @Router /v1/students [get]
-// func (h *StudentHandler) ViewStudent(w http.ResponseWriter, r *http.Request) {
-// 	page, _ := strconv.Atoi(r.URL.Query().Get("page"))
-// 	pageSize, _ := strconv.Atoi(r.URL.Query().Get("pageSize"))
+func (h *StudentHandler) ViewStudent(w http.ResponseWriter, r *http.Request) {
+	page, _ := strconv.Atoi(r.URL.Query().Get("page"))
+	pageSize, _ := strconv.Atoi(r.URL.Query().Get("pageSize"))
 
-// 	request := dto.BuildViewStudentRequest(page, pageSize)
-// 	err := request.Validate()
-// 	if err != nil {
-// 		response.WithError(w, err)
-// 		return
-// 	}
+	request := dto.BuildViewStudentRequest(page, pageSize)
+	err := request.Validate()
+	if err != nil {
+		response.WithError(w, err)
+		return
+	}
 
-// 	result, metadata, err := h.StudentService.GetStudentList(request)
-// 	if err != nil {
-// 		response.WithError(w, err)
-// 		return
-// 	}
-// 	response.WithMetadata(w, http.StatusOK, result, metadata)
-// }
+	result, metadata, err := h.StudentService.GetStudentList(request)
+	if err != nil {
+		response.WithError(w, err)
+		return
+	}
+	response.WithMetadata(w, http.StatusOK, result, metadata)
+}

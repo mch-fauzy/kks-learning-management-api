@@ -32,7 +32,7 @@ func (s Student) ToStudentPrimaryID() StudentPrimaryID {
 	}
 }
 
-func (s Student) ToEnrollmentStudentID() StudentEnrollmentStudentID {
+func (s Student) ToStudentEnrollmentStudentID() StudentEnrollmentStudentID {
 	return StudentEnrollmentStudentID{
 		StudentId: s.Id,
 	}
