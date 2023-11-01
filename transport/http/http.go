@@ -93,7 +93,6 @@ func (h *HTTP) setupRoutes() {
 	h.mux.Get("/health", h.HealthCheck)
 	h.mux.Post("/startConcurrency", h.StartConcurrency)
 	h.mux.Post("/stopConcurrency", h.StopConcurrency)
-	h.mux.Post("/stopProgram", h.StopProgram)
 	h.Router.SetupRoutes(h.mux)
 }
 
@@ -243,20 +242,6 @@ func (h *HTTP) StopConcurrency(w http.ResponseWriter, r *http.Request) {
 	h.concurrencyEnabled = false
 
 	response.WithMessage(w, http.StatusOK, "Concurrency process stopped")
-}
-
-// StopProgram Stop program
-// @Summary Stop program
-// @Description Stop program
-// @Tags service
-// @Produce json
-// @Accept json
-// @Success 200 {object} response.Base
-// @Failure 503 {object} response.Base
-// @Router /stopProgram [post]
-func (h *HTTP) StopProgram(w http.ResponseWriter, r *http.Request) {
-	log.Info().Msg("Stopping the program...")
-	os.Exit(0)
 }
 
 func (h *HTTP) runConcurrencyProcess() {
