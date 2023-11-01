@@ -4,6 +4,20 @@ import (
 	"time"
 )
 
+type studentEnrollmentDBFieldName struct {
+	Id                   string
+	StudentId            string
+	CourseId             string
+	CourseEnrollmentDate string
+}
+
+var StudentEnrollmentDBFieldName = studentEnrollmentDBFieldName{
+	Id:                   "id",
+	StudentId:            "student_id",
+	CourseId:             "course_id",
+	CourseEnrollmentDate: "course_enrollment_date",
+}
+
 type StudentEnrollment struct {
 	Id                   int       `db:"id"`
 	StudentId            string    `db:"student_id"`
@@ -22,15 +36,6 @@ func (se StudentEnrollment) ToStudentCoursePrimaryId() StudentCoursePrimaryID {
 }
 
 type StudentEnrollmentList []*StudentEnrollment
-
-// func (seList StudentEnrollmentList) ToStudentCoursePrimaryIdList() StudentCoursePrimaryIDList {
-// 	courseIdList := StudentCoursePrimaryIDList{}
-
-// 	for _, studentEnrollment := range seList {
-// 		courseIdList = append(courseIdList, &StudentCoursePrimaryID{Id: studentEnrollment.CourseId})
-// 	}
-// 	return courseIdList
-// }
 
 func (seList StudentEnrollmentList) ToCourseIdSlice() []string {
 	results := []string{}

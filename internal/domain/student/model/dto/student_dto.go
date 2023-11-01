@@ -60,7 +60,7 @@ type StudentResponse struct {
 	UpdatedBy      string                        `json:"updatedBy"`
 	DeletedAt      null.Time                     `json:"deletedAt"`
 	DeletedBy      null.String                   `json:"deletedBy"`
-	Enrollment     StudentEnrollmentListResponse `json:"enrollment"`
+	Enrollment     StudentEnrollmentListResponse `json:"enrollments"`
 	Courses        StudentCourseListResponse     `json:"courses"`
 }
 
