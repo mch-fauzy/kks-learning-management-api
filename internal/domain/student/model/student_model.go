@@ -6,6 +6,34 @@ import (
 	"github.com/guregu/null"
 )
 
+type studentDBFieldName struct {
+	Id             string
+	Name           string
+	Origin         string
+	EnrollmentDate string
+	GPA            string
+	CreatedAt      string
+	CreatedBy      string
+	UpdatedAt      string
+	UpdatedBy      string
+	DeletedAt      string
+	DeletedBy      string
+}
+
+var StudentDBFieldName = studentDBFieldName{
+	Id:             "id",
+	Name:           "name",
+	Origin:         "origin",
+	EnrollmentDate: "enrollment_date",
+	GPA:            "gpa",
+	CreatedAt:      "created_at",
+	CreatedBy:      "created_by",
+	UpdatedAt:      "updated_at",
+	UpdatedBy:      "updated_by",
+	DeletedAt:      "deleted_at",
+	DeletedBy:      "deleted_by",
+}
+
 type Student struct {
 	Id             string      `db:"id"`
 	Name           string      `db:"name"`

@@ -41,13 +41,6 @@ func (v ViewStudentRequest) Validate() error {
 	return nil
 }
 
-func (v ViewStudentRequest) ToPaginationModel() model.Pagination {
-	return model.Pagination{
-		Page:     v.Page,
-		PageSize: v.PageSize,
-	}
-}
-
 type StudentResponse struct {
 	Id             string                        `json:"id"`
 	Name           string                        `json:"name"`
