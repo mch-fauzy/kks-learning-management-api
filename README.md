@@ -1,37 +1,56 @@
-# Name: Muchamad Fauzy
+# Keraton Karya Solusi Learning Management System (LMS) API
 
-# Keraton Karya Solusi LMS API
-
-A Learning Management System (LMS) API for Managing Study Environment
+This API provides a platform for managing students, lecturers, courses, enrollments, and exams, making it easier to handle educational activities and data.
 
 ## Table of Contents
 
-- [Setup and Installation](#setup-and-installation)
+- [Features](#features)
+- [Getting Started](#getting-started)
 - [Swagger Documentation](#swagger-documentation)
 - [API Endpoints](#api-endpoints)
+- [Error Handling](#error-handling)
 - [Contributing](#contributing)
 
-## Setup and Installation
+## Features
 
-1. Clone the repository and navigate to the root folder
+- View, add, update, and delete student records
+- Manage lecturer information
+- Create and manage courses, including assigning lecturers
+- Record and grade exams
+- Calculate student GPAs based on exam grades
+- Pagination for managing large lists of students
 
-2. Create a `.env` file and set your MySQL DB configurations. Refer to `./infras/mysql.go` for the required parameters
+## Getting Started
 
-3. Set up the database tables by running the SQL scripts located in the `./migrations` folder in sequence
+1. Clone this repository:
 
-4. Generate the necessary wire code:
+   ```
+   git clone https://github.com/mch-fauzy/kks-learning-management-api.git
+   ```
+
+2. Navigate to the project directory:
+
+   ```
+   cd kks-learning-management-api
+   ```
+
+3. Create a `.env` file and set your MySQL DB configurations. Refer to `./infras/mysql.go` for the required parameters
+
+4. Set up the database tables by running the SQL scripts located in the `./migrations` folder in sequence
+
+5. Generate the necessary wire code:
 
    ```
    go generate ./...
    ```
 
-5. To start the application, run the following command in the project root folder:
+6. To start the application, run the following command in the project root folder:
 
    ```
    go run .
    ```
 
-6. The API will be accessible at [http://localhost:8080](http://localhost:8080)
+7. The API will be accessible at [http://localhost:8080](http://localhost:8080)
 
 ## Swagger Documentation
 
@@ -46,26 +65,17 @@ To access the API documentation using Swagger, follow these steps:
 
 Once the application is up and running, you can interact with the API using the following endpoints:
 
+### View All Student Information
+
+- **Endpoint:** `Get /v1/students`
+- **Description:** View a list of all student information
+- **Query Parameters:** `page` (default: 1), `pageSize` (default: 10)
+
 ### View Student Information by ID
 
 - **Endpoint:** `Get /v1/students/{studentId}`
 - **Description:** View Student Information by ID, including course and date which enrolled by student
 - **Path Parameters:** `studentId`
-
-### Start Concurrency
-
-- **Endpoint:** `Post /startConcurrency`
-- **Description:** Start concurrency to print random number
-
-### Stop Concurrency
-
-- **Endpoint:** `Post /stopConcurrency `
-- **Description:** stop the concurrency process
-
-### Stop Program
-
-- **Endpoint:** `Post /stopProgram`
-- **Description:** Force stop the program
 
 ## Contributing
 
