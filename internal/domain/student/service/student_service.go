@@ -24,9 +24,9 @@ func (s *StudentServiceImpl) GetStudentById(req dto.ViewStudentByIdRequest) (dto
 	enrollmentListByStudentId, err := s.StudentRepository.ResolveEnrollmentListByFilter(model.Filter{
 		FilterFields: []model.FilterField{
 			{
-				Field:    "student_id",
+				Field:    model.StudentEnrollmentDBFieldName.StudentId,
 				Operator: model.OperatorEqual,
-				Value:    req.StudentId,
+				Value:    studentById.Id,
 			},
 		},
 	})
@@ -35,12 +35,13 @@ func (s *StudentServiceImpl) GetStudentById(req dto.ViewStudentByIdRequest) (dto
 		return dto.StudentResponse{}, err
 	}
 
+	courseIdSlice := enrollmentListByStudentId.ToCourseIdSlice()
 	courseListById, err := s.StudentRepository.ResolveCourseListByFilter(model.Filter{
 		FilterFields: []model.FilterField{
 			{
-				Field:    "id",
+				Field:    model.StudentCourseDBFieldName.Id,
 				Operator: model.OperatorIn,
-				Value:    shared.SliceStringToInterfaces(enrollmentListByStudentId.ToCourseIdSlice()),
+				Value:    shared.SliceStringToInterfaces(courseIdSlice),
 			},
 		},
 	})
@@ -56,14 +57,24 @@ func (s *StudentServiceImpl) GetStudentById(req dto.ViewStudentByIdRequest) (dto
 
 func (s *StudentServiceImpl) GetStudentList(req dto.ViewStudentRequest) (dto.StudentListResponse, dto.Pagination, error) {
 
-	paginationFilter := req.ToPaginationModel()
-	student, err := s.StudentRepository.ResolveStudents(paginationFilter)
+	studentList, err := s.StudentRepository.ResolveStudentListByFilter(model.Filter{
+		Pagination: model.Pagination{
+			Page:     req.Page,
+			PageSize: req.PageSize,
+		},
+		Sorts: []model.Sort{
+			{
+				Field: model.StudentDBFieldName.Id,
+				Order: model.SortDesc,
+			},
+		},
+	})
 	if err != nil {
 		log.Error().Err(err).Msg("[GetStudentList] Failed to retrieve student list")
 		return dto.StudentListResponse{}, dto.Pagination{}, err
 	}
 
-	result := dto.BuildStudentListResponse(student)
+	result := dto.BuildStudentListResponse(studentList)
 	paginationMetadata := dto.BuildMetadata(req.Page, req.PageSize)
 	return result, paginationMetadata, nil
 }

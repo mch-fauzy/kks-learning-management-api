@@ -27,30 +27,21 @@ const (
 	FROM
 		student
 	`
-	filterByIdQuery = `
-	WHERE
-		id = ?
-	`
-	paginationQuery = `
-	LIMIT ? OFFSET ?
-	`
 )
 
 type StudentManagementRepository interface {
-	ResolveStudents(pagination model.Pagination) (model.StudentList, error)
+	ResolveStudentListByFilter(filter model.Filter) (model.StudentList, error)
 	ResolveStudentById(filter model.StudentPrimaryID) (model.Student, error)
 }
 
-func (r *StudentRepositoryMySQL) ResolveStudents(pagination model.Pagination) (model.StudentList, error) {
-	query := fmt.Sprintf(selectStudentQuery)
-
-	var args []interface{}
-	query += paginationQuery
-	offset := (pagination.Page - 1) * pagination.PageSize
-	args = append(args, pagination.PageSize, offset)
+func (r *StudentRepositoryMySQL) ResolveStudentListByFilter(filter model.Filter) (model.StudentList, error) {
+	query, args, err := composeFilterQuery(selectStudentQuery, filter)
+	if err != nil {
+		return model.StudentList{}, err
+	}
 
 	var student model.StudentList
-	err := r.DB.Read.Select(&student, query, args...)
+	err = r.DB.Read.Select(&student, query, args...)
 	if err != nil {
 		log.Error().
 			Err(err).
@@ -62,18 +53,14 @@ func (r *StudentRepositoryMySQL) ResolveStudents(pagination model.Pagination) (m
 	return student, nil
 }
 
-func (r *StudentRepositoryMySQL) ResolveStudentById(filter model.StudentPrimaryID) (model.Student, error) {
-	query := fmt.Sprintf(selectStudentQuery)
-
-	var args []interface{}
-	query += filterByIdQuery
-	args = append(args, filter.Id)
+func (r *StudentRepositoryMySQL) ResolveStudentById(primaryId model.StudentPrimaryID) (model.Student, error) {
+	query, args := composePrimaryIdQuery(selectStudentQuery, primaryId.Id)
 
 	var student model.Student
 	err := r.DB.Read.Get(&student, query, args...)
 	if err != nil {
 		if errors.Is(err, sql.ErrNoRows) {
-			err = failure.NotFound(fmt.Sprintf("Student with id '%s' not found", fmt.Sprint(filter.Id)))
+			err = failure.NotFound(fmt.Sprintf("Student with id '%s' not found", fmt.Sprint(primaryId.Id)))
 			return model.Student{}, err
 		}
 		log.Error().
