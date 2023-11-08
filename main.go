@@ -10,9 +10,9 @@ import (
 
 var config *configs.Config
 
-//@securityDefinitions.apikey EVMOauthToken
-//@in header
-//@name Authorization
+// @securityDefinitions.apikey BearerAuth
+// @in header
+// @name Authorization
 func main() {
 	// Initialize logger
 	logger.InitLogger()
