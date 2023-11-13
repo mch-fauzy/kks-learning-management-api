@@ -12,6 +12,7 @@ require (
 	github.com/cenkalti/backoff/v4 v4.1.0
 	github.com/cosmtrek/air v1.12.5-0.20200905080724-b538c70423fb
 	github.com/cpuguy83/go-md2man/v2 v2.0.0 // indirect
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible // indirect
 	github.com/fatih/color v1.9.0 // indirect
 	github.com/go-chi/chi v4.1.2+incompatible
 	github.com/go-chi/cors v1.1.1
