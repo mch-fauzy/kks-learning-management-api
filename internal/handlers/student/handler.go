@@ -17,10 +17,15 @@ func ProvideStudentHandler(studentService service.StudentService) StudentHandler
 
 func (h *StudentHandler) Router(r chi.Router) {
 
-	r.Route("/students", func(r chi.Router) {
+	r.Route("/student", func(r chi.Router) {
 		r.Group(func(r chi.Router) {
-			r.Get("/", h.ViewStudent)
-			r.Get("/{studentId}", h.ViewStudentById)
+			r.Get("/{studentId}", h.ViewStudentSelfInformation)
+		})
+	})
+
+	r.Route("/admin", func(r chi.Router) {
+		r.Group(func(r chi.Router) {
+			r.Get("/students", h.ViewStudent)
 		})
 	})
 }

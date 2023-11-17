@@ -19,8 +19,8 @@ import (
 // @Failure 400 {object} response.Base
 // @Failure 404 {object} response.Base
 // @Failure 500 {object} response.Base
-// @Router /v1/students/{studentId} [get]
-func (h *StudentHandler) ViewStudentById(w http.ResponseWriter, r *http.Request) {
+// @Router /v1/student/{studentId} [get]
+func (h *StudentHandler) ViewStudentSelfInformation(w http.ResponseWriter, r *http.Request) {
 	studentId := chi.URLParam(r, "studentId")
 
 	request := dto.BuildViewStudentByIdRequest(studentId)
@@ -35,7 +35,7 @@ func (h *StudentHandler) ViewStudentById(w http.ResponseWriter, r *http.Request)
 // ViewStudent View all student
 // @Summary View student
 // @Description This endpoint for view all student information
-// @Tags student
+// @Tags admin student
 // @Produce json
 // @Param page query string false "Number of page"
 // @Param pageSize query string false "Total data per Page"
@@ -43,7 +43,7 @@ func (h *StudentHandler) ViewStudentById(w http.ResponseWriter, r *http.Request)
 // @Failure 400 {object} response.Base
 // @Failure 404 {object} response.Base
 // @Failure 500 {object} response.Base
-// @Router /v1/students [get]
+// @Router /v1/admin/students [get]
 func (h *StudentHandler) ViewStudent(w http.ResponseWriter, r *http.Request) {
 	page, _ := strconv.Atoi(r.URL.Query().Get("page"))
 	pageSize, _ := strconv.Atoi(r.URL.Query().Get("pageSize"))
