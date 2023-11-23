@@ -7,8 +7,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-// Config is a struct that will receive configuration options via environment
-// variables.
+// Config is a struct that will receive configuration options via environment variables.
 type Config struct {
 	App struct {
 		CORS struct {
