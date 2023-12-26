@@ -6,7 +6,7 @@ import (
 
 type StudentCourseResponse struct {
 	Id         string `json:"id"`
-	LecturerId string `json:"lecturer_id"`
+	LecturerId string `json:"lecturerId"`
 	Name       string `json:"name"`
 	Credit     int    `json:"credit"`
 }
