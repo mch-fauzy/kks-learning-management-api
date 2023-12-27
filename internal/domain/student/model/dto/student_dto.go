@@ -77,6 +77,7 @@ func NewStudentResponse(student model.Student) StudentResponse {
 	}
 }
 
+// Build response of student list without list of enrollment and course
 func BuildStudentListResponse(studentList model.StudentList) StudentListResponse {
 	results := StudentListResponse{}
 	for _, student := range studentList {
@@ -85,6 +86,7 @@ func BuildStudentListResponse(studentList model.StudentList) StudentListResponse
 	return results
 }
 
+// Build response of student by ID with list of enrollment and course
 func BuildStudentByIdResponse(student model.Student, enrollmentList model.StudentEnrollmentList, courseList model.StudentCourseList) StudentResponse {
 	return StudentResponse{
 		Id:             student.Id,
