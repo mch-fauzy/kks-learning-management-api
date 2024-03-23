@@ -1,3 +1,4 @@
+-- TODO
 -- Insert dummy data into the Course table
 INSERT INTO course (id, lecturer_id, name, credit, created_at, created_by, updated_at, updated_by)
 VALUES

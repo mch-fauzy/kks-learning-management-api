@@ -1,3 +1,4 @@
+-- TODO
 -- Insert dummy data into the Lecturer table
 INSERT INTO lecturer (id, name, origin, created_at, created_by, updated_at, updated_by)
 VALUES

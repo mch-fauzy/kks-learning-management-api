@@ -1,3 +1,4 @@
+-- TODO
 -- Insert dummy data into the Student table
 INSERT INTO student (id, name, origin, enrollment_date, gpa, created_at, created_by, updated_at, updated_by)
 VALUES
