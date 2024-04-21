@@ -4,12 +4,16 @@ This API provides a platform for managing students, lecturers, courses, enrollme
 
 ## Table of Contents
 
+- [Requirement](#requirement)
 - [Features](#features)
 - [Getting Started](#getting-started)
 - [Swagger Documentation](#swagger-documentation)
 - [API Endpoints](#api-endpoints)
 - [Error Handling](#error-handling)
 - [Contributing](#contributing)
+
+## Requirement
+- Go version 1.5.x
 
 ## Features
 
